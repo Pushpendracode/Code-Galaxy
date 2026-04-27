@@ -7,11 +7,13 @@ import Projects from "./Pages/Projects";
 import Contact from "./Pages/Contact";
 import CustomCursor from "./Components/CustomCursor";
 import "./Styles/Globle.css";
+import ClickEffect from "./Components/ClickEffect";
 
 function App() {
     return (
         <BrowserRouter>
         <CustomCursor/>
+        <ClickEffect/>
             <Navbar />
             <Routes>
                 <Route path="/" element={<Home />} />
