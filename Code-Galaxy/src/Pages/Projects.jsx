@@ -3,46 +3,45 @@ import { motion } from "framer-motion";
 const projects = [
     {
         title: "Code Galaxy Portfolio",
-        description: "A space themed interactive portfolio showing my developer journey!",
-        tech: ["React", "Framer Motion", "CSS"],
+        description: "My personal space themed portfolio website built with React and Framer Motion animations!",
+        tech: ["React", "Framer Motion", "Vite", "CSS"],
         icon: "🌌",
         color: "#6c63ff",
         status: "In Progress"
     },
     {
-        title: "Nova AI",
-        description: "A human-like AI assistant with memory, personality and emotions!",
-        tech: ["React", "Node.js", "Claude API"],
-        icon: "🤖",
-        color: "#00d4ff",
-        status: "In Progress"
-    },
-    {
         title: "Full Stack Blog App",
-        description: "Complete blog with authentication, JWT, and MongoDB database!",
+        description: "A complete blog application with user authentication, JWT tokens, and MongoDB database!",
         tech: ["React", "Express", "MongoDB", "JWT"],
         icon: "📝",
         color: "#ff6584",
         status: "Completed"
     },
     {
+        title: "Todo REST API",
+        description: "A REST API built with Express and MongoDB supporting full CRUD operations!",
+        tech: ["Node.js", "Express", "MongoDB"],
+        icon: "🔌",
+        color: "#f7df1e",
+        status: "Completed"
+    },
+    {
         title: "Todo App",
-        description: "Feature rich todo app with local storage and filter system!",
-        tech: ["JavaScript", "DOM", "LocalStorage"],
+        description: "Feature rich todo app with add, delete, complete and filter functionality using vanilla JavaScript!",
+        tech: ["JavaScript", "HTML", "CSS", "LocalStorage"],
         icon: "✅",
         color: "#4db33d",
         status: "Completed"
     },
     {
-        title: "REST API",
-        description: "Complete REST API with Express and MongoDB — full CRUD operations!",
-        tech: ["Node.js", "Express", "MongoDB"],
-        icon: "🔌",
-        color: "#f7df1e",
-        status: "Completed"
+        title: "Nova AI",
+        description: "My own AI assistant project — currently in development with personality and memory features!",
+        tech: ["React", "Node.js", "AI API"],
+        icon: "🤖",
+        color: "#00d4ff",
+        status: "In Progress"
     }
 ];
-
 function Projects() {
     return (
         <div style={{

@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { href } from "react-router-dom";
+import { href, Link } from "react-router-dom";
 
 function Contact() {
     const [form, setForm] = useState({ name: "", email: "", message: "" });
@@ -208,9 +208,9 @@ function Contact() {
                     }}
                 >
                     {[
-                        { label: "GitHub", icon: "💻" },
-                        { label: "LinkedIn", icon: "🔗" },
-                        { label: "Twitter", icon: "🐦" }
+                        { label: "GitHub", icon: "💻" ,URL:"https://github.com/Pushpendracode" },
+                        { label: "LinkedIn", icon: "🔗", URL:"https://www.linkedin.com/in/pushpendra-singh-524913356/" },
+                        { label: "Twitter", icon: "🐦"}
                     ].map((social, i) => (
                         <button key={i} style={{
                             padding: "10px 20px",

@@ -65,7 +65,7 @@ function About() {
                         marginBottom: "20px",
                         fontSize: "16px"
                     }}>
-                        Hey! I'm Pushpendra Singh, a passionate Full Stack Developer
+                        I'm Pushpendra Singh, a Fervent Full Stack Developer
                         from India. I love building web applications and exploring
                         new technologies every day!
                     </p>
@@ -77,8 +77,10 @@ function About() {
                         fontSize: "16px"
                     }}>
                         I am the creator of <span style={{ color: "#00d4ff" }}>Nova AI</span> —
-                        a human-like AI assistant. My goal is to become the
-                        world's best developer and build products that impact millions!
+                        a human-like AI assistant. 
+                        
+                        <h2>My goal is to become the
+                        world's best developer and build products that <span style={{color:"#a394d1"}} >impact millions!</span></h2>
                     </p>
 
                     {/* Stats */}
