@@ -3,6 +3,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    cursor:none;
 }
 
 body {
@@ -56,3 +57,4 @@ button {
     animation: meteor linear infinite;
     box-shadow: 0 0 4px white;
 }
+

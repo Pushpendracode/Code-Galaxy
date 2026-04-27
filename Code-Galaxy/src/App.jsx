@@ -5,11 +5,13 @@ import About from "./Pages/About";
 import Skills from "./Pages/Skills";
 import Projects from "./Pages/Projects";
 import Contact from "./Pages/Contact";
+import CustomCursor from "./Components/CustomCursor";
 import "./Styles/Globle.css";
 
 function App() {
     return (
         <BrowserRouter>
+        <CustomCursor/>
             <Navbar />
             <Routes>
                 <Route path="/" element={<Home />} />
