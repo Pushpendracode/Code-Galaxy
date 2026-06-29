@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 // Update this once your backend is deployed to Render
-const API_URL = "https://your-codegalaxy-backend.onrender.com/api/projects";
+const API_URL = "https://code-galaxy-9czh.onrender.com/api/projects";
 
 // Fallback icon/color cycle for projects coming from the database,
 // since the DB doesn't store an icon/emoji field
