@@ -1,13 +1,31 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
-// Update this once your backend is deployed to Render
 const API_URL = "https://code-galaxy-9czh.onrender.com/api/projects";
 
-// Fallback icon/color cycle for projects coming from the database,
-// since the DB doesn't store an icon/emoji field
 const ICONS = ["🌌", "📝", "🔌", "✅", "🤖", "🚀", "🛠️", "🌠"];
 const COLORS = ["#6c63ff", "#ff6584", "#f7df1e", "#4db33d", "#00d4ff"];
+
+// Separate small component for a project link button.
+// Keeping this isolated avoids editor autocomplete issues when pasting <a> tags.
+function ProjectLink({ url, label, color, filled }) {
+    const baseStyle = {
+        padding: "6px 14px",
+        borderRadius: "8px",
+        fontSize: "13px",
+        fontWeight: 600,
+        textDecoration: "none",
+    };
+
+    const filledStyle = { ...baseStyle, background: color, color: "#0a0a0f" };
+    const outlineStyle = { ...baseStyle, border: `1px solid ${color}80`, color };
+
+    return (
+        <a href={url} target="_blank" rel="noopener noreferrer" style={filled ? filledStyle : outlineStyle}>
+            {label}
+        </a>
+    );
+}
 
 function Projects() {
     const [projects, setProjects] = useState([]);
@@ -173,7 +191,7 @@ function Projects() {
                                         ))}
                                     </div>
 
-                                    {/* Links */}
+                                    {/* Links — using the ProjectLink component instead of inline <a> tags */}
                                     {(project.liveLink || project.githubLink) && (
                                         <div style={{
                                             display: "flex",
@@ -181,40 +199,10 @@ function Projects() {
                                             flexWrap: "wrap"
                                         }}>
                                             {project.liveLink && (
-                                                
-                                                    <a>href={project.liveLink}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    style={{
-                                                        padding: "6px 14px",
-                                                        borderRadius: "8px",
-                                                        fontSize: "13px",
-                                                        fontWeight: 600,
-                                                        textDecoration: "none",
-                                                        background: color,
-                                                        color: "#0a0a0f"
-                                                    }}
-                                                
-                                                    Live Demo ↗
-                                                </a>
+                                                <ProjectLink url={project.liveLink} label="Live Demo ↗" color={color} filled />
                                             )}
                                             {project.githubLink && (
-                                                
-                                                   <a> href={project.githubLink}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    style={{
-                                                        padding: "6px 14px",
-                                                        borderRadius: "8px",
-                                                        fontSize: "13px",
-                                                        fontWeight: 600,
-                                                        textDecoration: "none",
-                                                        border: `1px solid ${color}80`,
-                                                        color
-                                                    }}
-                                                
-                                                    GitHub ↗
-                                                </a>
+                                                <ProjectLink url={project.githubLink} label="GitHub ↗" color={color} />
                                             )}
                                         </div>
                                     )}
