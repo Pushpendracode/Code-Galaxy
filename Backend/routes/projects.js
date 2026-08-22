@@ -2,7 +2,16 @@ const express = require('express');
 const router = express.Router();
 const Project = require('../models/Project');
 
-// GET /api/projects - list all projects
+// Simple protection for write operations — checks a secret key from env vars
+function requireAdminKey(req, res, next) {
+  const key = req.headers['x-admin-key'];
+  if (!key || key !== process.env.ADMIN_KEY) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+  next();
+}
+
+// GET /api/projects - list all projects (public, read-only)
 router.get('/', async (req, res) => {
   try {
     const projects = await Project.find().sort({ order: 1, createdAt: -1 });
@@ -12,7 +21,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// GET /api/projects/:id - get a single project
+// GET /api/projects/:id - get a single project (public, read-only)
 router.get('/:id', async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
@@ -23,8 +32,8 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// POST /api/projects - create a new project
-router.post('/', async (req, res) => {
+// POST /api/projects - create a new project (protected)
+router.post('/', requireAdminKey, async (req, res) => {
   try {
     const project = new Project(req.body);
     await project.save();
@@ -34,8 +43,8 @@ router.post('/', async (req, res) => {
   }
 });
 
-// PUT /api/projects/:id - update a project
-router.put('/:id', async (req, res) => {
+// PUT /api/projects/:id - update a project (protected)
+router.put('/:id', requireAdminKey, async (req, res) => {
   try {
     const project = await Project.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
@@ -48,8 +57,8 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// DELETE /api/projects/:id - delete a project
-router.delete('/:id', async (req, res) => {
+// DELETE /api/projects/:id - delete a project (protected)
+router.delete('/:id', requireAdminKey, async (req, res) => {
   try {
     const project = await Project.findByIdAndDelete(req.params.id);
     if (!project) return res.status(404).json({ error: 'Project not found' });

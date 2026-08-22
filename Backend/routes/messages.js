@@ -3,7 +3,16 @@ const router = express.Router();
 const Message = require('../models/Message');
 const { sendContactNotification } = require('../utils/sendEmail');
 
-// POST /api/messages - someone submits the contact form
+// Simple protection for admin-only operations — checks a secret key from env vars
+function requireAdminKey(req, res, next) {
+  const key = req.headers['x-admin-key'];
+  if (!key || key !== process.env.ADMIN_KEY) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+  next();
+}
+
+// POST /api/messages - someone submits the contact form (public — intentional)
 router.post('/', async (req, res) => {
   const { name, email, message } = req.body;
 
@@ -29,8 +38,8 @@ router.post('/', async (req, res) => {
   }
 });
 
-// GET /api/messages - view all messages (for you to check later, e.g. via Postman)
-router.get('/', async (req, res) => {
+// GET /api/messages - view all messages (protected — contains real people's PII)
+router.get('/', requireAdminKey, async (req, res) => {
   try {
     const messages = await Message.find().sort({ createdAt: -1 });
     res.json(messages);
@@ -39,8 +48,8 @@ router.get('/', async (req, res) => {
   }
 });
 
-// PUT /api/messages/:id/read - mark a message as read
-router.put('/:id/read', async (req, res) => {
+// PUT /api/messages/:id/read - mark a message as read (protected)
+router.put('/:id/read', requireAdminKey, async (req, res) => {
   try {
     const updated = await Message.findByIdAndUpdate(req.params.id, { read: true }, { new: true });
     if (!updated) return res.status(404).json({ error: 'Message not found' });

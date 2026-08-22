@@ -120,7 +120,7 @@ function Home() {
                             marginBottom: "50px"
                         }}
                     >
-                        🚀 Full Stack Developer | Creator of Nova AI
+                        🚀 MERN Stack Developer | Building end-to-end web apps
                     </motion.h2>
 
                     <motion.div
@@ -216,7 +216,7 @@ function Home() {
                         { icon: "⚡", title: "Frontend", desc: "Building beautiful UIs with React and modern CSS" },
                         { icon: "🔧", title: "Backend", desc: "Creating powerful APIs with Node.js and Express" },
                         { icon: "🗄️", title: "Database", desc: "Managing data with MongoDB and Mongoose" },
-                        { icon: "🤖", title: "AI", desc: "Building Nova AI — a human-like AI assistant" }
+                        { icon: "🤖", title: "AI Integration", desc: "Building AI-powered features with the Anthropic API" }
                     ].map((item, i) => (
                         <motion.div
                             key={i}

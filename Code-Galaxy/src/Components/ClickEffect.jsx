@@ -5,16 +5,21 @@ function ClickEffect() {
 
     useEffect(() => {
         const handleClick = (e) => {
-            const newParticles = [...Array(8)].map((_, i) => ({
-                id: Date.now() + i,
-                x: e.clientX,
-                y: e.clientY,
-                angle: (i * 45) * (Math.PI / 180),
-                color: i % 2 === 0 ? "#6c63ff" : "#00d4ff"
-            }));
+            const distance = 60;
+            const newParticles = [...Array(8)].map((_, i) => {
+                const angle = (i * 45) * (Math.PI / 180);
+                return {
+                    id: Date.now() + i,
+                    x: e.clientX,
+                    y: e.clientY,
+                    tx: Math.cos(angle) * distance,
+                    ty: Math.sin(angle) * distance,
+                    color: i % 2 === 0 ? "#6c63ff" : "#00d4ff"
+                };
+            });
             setParticles(prev => [...prev, ...newParticles]);
             setTimeout(() => {
-                setParticles(prev => 
+                setParticles(prev =>
                     prev.filter(p => !newParticles.find(np => np.id === p.id))
                 );
             }, 600);
@@ -40,7 +45,9 @@ function ClickEffect() {
                         pointerEvents: "none",
                         zIndex: 9999,
                         boxShadow: `0 0 6px ${particle.color}`,
-                        animation: `explode-${Math.floor(particle.angle)} 0.6s ease-out forwards`
+                        "--tx": `${particle.tx}px`,
+                        "--ty": `${particle.ty}px`,
+                        animation: "explode 0.6s ease-out forwards"
                     }}
                 />
             ))}

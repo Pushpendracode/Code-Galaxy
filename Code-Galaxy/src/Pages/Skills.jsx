@@ -1,14 +1,20 @@
 import { motion } from "framer-motion";
 
 const skills = [
-    { name: "JavaScript", level: 85, icon: "⚡", color: "#f7df1e" },
+    { name: "JavaScript (ES6+)", level: 85, icon: "⚡", color: "#f7df1e" },
     { name: "React.js", level: 80, icon: "⚛️", color: "#61dafb" },
+    { name: "Redux Toolkit", level: 70, icon: "🧩", color: "#764abc" },
+    { name: "Tailwind CSS", level: 75, icon: "💨", color: "#38bdf8" },
     { name: "Node.js", level: 75, icon: "🟢", color: "#68a063" },
     { name: "Express.js", level: 75, icon: "🚀", color: "#ffffff" },
-    { name: "MongoDB", level: 70, icon: "🍃", color: "#4db33d" },
-    { name: "HTML/CSS", level: 90, icon: "🎨", color: "#e34c26" },
-    { name: "Git", level: 70, icon: "📦", color: "#f05032" },
+    { name: "MongoDB / Mongoose", level: 70, icon: "🍃", color: "#4db33d" },
+    { name: "JWT & Bearer Auth", level: 75, icon: "🔐", color: "#00d4ff" },
+    { name: "RBAC", level: 70, icon: "🛡️", color: "#ff6584" },
+    { name: "Razorpay Integration", level: 65, icon: "💳", color: "#528ff0" },
     { name: "REST APIs", level: 80, icon: "🔌", color: "#00d4ff" },
+    { name: "Git & GitHub", level: 75, icon: "📦", color: "#f05032" },
+    { name: "Postman", level: 75, icon: "📮", color: "#ff6c37" },
+    { name: "HTML/CSS", level: 90, icon: "🎨", color: "#e34c26" },
 ];
 
 function Skills() {

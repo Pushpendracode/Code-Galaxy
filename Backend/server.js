@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const rateLimit = require('express-rate-limit');
 
 const projectRoutes = require('./routes/projects');
 const skillRoutes = require('./routes/skills');
@@ -13,8 +14,36 @@ const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
 // Middleware
-app.use(cors());
+const allowedOrigins = [
+  'https://pushpendradevpro.netlify.app',
+  'http://localhost:5173', // local dev
+];
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+}));
 app.use(express.json());
+
+// Rate limit: applies to all API routes, protects against spam/abuse
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per window
+  message: { error: 'Too many requests, please try again later.' },
+});
+app.use('/api', apiLimiter);
+
+// Stricter limit specifically on the contact form, since it triggers email sends
+const contactLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 5, // limit each IP to 5 contact submissions per hour
+  message: { error: 'Too many messages sent. Please try again later.' },
+});
+app.use('/api/messages', contactLimiter);
 
 // Routes
 app.use('/api/projects', projectRoutes);

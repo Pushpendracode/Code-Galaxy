@@ -2,7 +2,16 @@ const express = require('express');
 const router = express.Router();
 const Skill = require('../models/Skill');
 
-// GET /api/skills - list all skills
+// Simple protection for write operations — checks a secret key from env vars
+function requireAdminKey(req, res, next) {
+  const key = req.headers['x-admin-key'];
+  if (!key || key !== process.env.ADMIN_KEY) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+  next();
+}
+
+// GET /api/skills - list all skills (public, read-only)
 router.get('/', async (req, res) => {
   try {
     const skills = await Skill.find().sort({ category: 1, order: 1 });
@@ -12,7 +21,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// GET /api/skills/:id - get a single skill
+// GET /api/skills/:id - get a single skill (public, read-only)
 router.get('/:id', async (req, res) => {
   try {
     const skill = await Skill.findById(req.params.id);
@@ -23,8 +32,8 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// POST /api/skills - add a new skill
-router.post('/', async (req, res) => {
+// POST /api/skills - add a new skill (protected)
+router.post('/', requireAdminKey, async (req, res) => {
   try {
     const skill = new Skill(req.body);
     await skill.save();
@@ -34,8 +43,8 @@ router.post('/', async (req, res) => {
   }
 });
 
-// PUT /api/skills/:id - update a skill
-router.put('/:id', async (req, res) => {
+// PUT /api/skills/:id - update a skill (protected)
+router.put('/:id', requireAdminKey, async (req, res) => {
   try {
     const skill = await Skill.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
@@ -48,8 +57,8 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// DELETE /api/skills/:id - delete a skill
-router.delete('/:id', async (req, res) => {
+// DELETE /api/skills/:id - delete a skill (protected)
+router.delete('/:id', requireAdminKey, async (req, res) => {
   try {
     const skill = await Skill.findByIdAndDelete(req.params.id);
     if (!skill) return res.status(404).json({ error: 'Skill not found' });

@@ -1,22 +1,44 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { href, Link } from "react-router-dom";
+
+const CONTACT_API_URL = "https://code-galaxy-9czh.onrender.com/api/messages";
 
 function Contact() {
     const [form, setForm] = useState({ name: "", email: "", message: "" });
     const [sent, setSent] = useState(false);
+    const [sending, setSending] = useState(false);
+    const [error, setError] = useState(null);
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if(!form.name || !form.email || !form.message) {
+        if (!form.name || !form.email || !form.message) {
             alert("Please fill all fields!");
             return;
         }
-        setSent(true);
+
+        setSending(true);
+        setError(null);
+
+        try {
+            const res = await fetch(CONTACT_API_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(form),
+            });
+
+            if (!res.ok) throw new Error("Failed to send message");
+
+            setSent(true);
+        } catch (err) {
+            console.error("Could not send message:", err);
+            setError("Something went wrong — please try again shortly.");
+        } finally {
+            setSending(false);
+        }
     };
 
     return (
@@ -173,8 +195,15 @@ function Contact() {
                             />
                         </div>
 
+                        {error && (
+                            <p style={{ color: "#ff6584", fontSize: "14px", marginBottom: "20px", textAlign: "center" }}>
+                                {error}
+                            </p>
+                        )}
+
                         <button
                             type="submit"
+                            disabled={sending}
                             style={{
                                 width: "100%",
                                 padding: "14px",
@@ -183,14 +212,15 @@ function Contact() {
                                 borderRadius: "8px",
                                 fontSize: "16px",
                                 fontWeight: "bold",
-                                cursor: "pointer",
+                                cursor: sending ? "not-allowed" : "pointer",
+                                opacity: sending ? 0.7 : 1,
                                 border: "none",
                                 transition: "opacity 0.3s"
                             }}
-                            onMouseEnter={e => e.target.style.opacity = "0.9"}
-                            onMouseLeave={e => e.target.style.opacity = "1"}
+                            onMouseEnter={e => { if (!sending) e.target.style.opacity = "0.9"; }}
+                            onMouseLeave={e => { if (!sending) e.target.style.opacity = "1"; }}
                         >
-                            🚀 Send Transmission
+                            {sending ? "Sending..." : "🚀 Send Transmission"}
                         </button>
                     </motion.form>
                 )}
@@ -208,30 +238,35 @@ function Contact() {
                     }}
                 >
                     {[
-                        { label: "GitHub", icon: "💻" ,URL:"https://github.com/Pushpendracode" },
-                        { label: "LinkedIn", icon: "🔗", URL:"https://www.linkedin.com/in/pushpendra-singh-524913356/" },
-                        { label: "Twitter", icon: "🐦"}
+                        { label: "GitHub", icon: "💻", URL: "https://github.com/Pushpendracode" },
+                        { label: "LinkedIn", icon: "🔗", URL: "https://www.linkedin.com/in/pushpendra-singh-aa9a40426/" },
                     ].map((social, i) => (
-                        <button key={i} style={{
-                            padding: "10px 20px",
-                            background: "rgba(108, 99, 255, 0.1)",
-                            border: "1px solid rgba(108, 99, 255, 0.3)",
-                            borderRadius: "20px",
-                            color: "#aaa",
-                            cursor: "pointer",
-                            transition: "all 0.3s"
-                        }}
-                        onMouseEnter={e => {
-                            e.target.style.background = "rgba(108, 99, 255, 0.3)";
-                            e.target.style.color = "white";
-                        }}
-                        onMouseLeave={e => {
-                            e.target.style.background = "rgba(108, 99, 255, 0.1)";
-                            e.target.style.color = "#aaa";
-                        }}
+                        <a
+                            key={i}
+                            href={social.URL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{
+                                padding: "10px 20px",
+                                background: "rgba(108, 99, 255, 0.1)",
+                                border: "1px solid rgba(108, 99, 255, 0.3)",
+                                borderRadius: "20px",
+                                color: "#aaa",
+                                cursor: "pointer",
+                                textDecoration: "none",
+                                transition: "all 0.3s"
+                            }}
+                            onMouseEnter={e => {
+                                e.currentTarget.style.background = "rgba(108, 99, 255, 0.3)";
+                                e.currentTarget.style.color = "white";
+                            }}
+                            onMouseLeave={e => {
+                                e.currentTarget.style.background = "rgba(108, 99, 255, 0.1)";
+                                e.currentTarget.style.color = "#aaa";
+                            }}
                         >
                             {social.icon} {social.label}
-                        </button>
+                        </a>
                     ))}
                 </motion.div>
             </div>

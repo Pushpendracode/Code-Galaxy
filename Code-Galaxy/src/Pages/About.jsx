@@ -40,7 +40,7 @@ function About() {
                         👨‍💻
                     </div>
                     <h2 style={{ color: "#6c63ff" }}>Pushpendra Singh</h2>
-                    <p style={{ color: "#00d4ff" }}>Full Stack Developer</p>
+                    <p style={{ color: "#00d4ff" }}>MERN Stack Developer</p>
                 </motion.div>
 
                 {/* Right — Info */}
@@ -65,9 +65,11 @@ function About() {
                         marginBottom: "20px",
                         fontSize: "16px"
                     }}>
-                        I'm Pushpendra Singh, a Fervent Full Stack Developer
-                        from India. I love building web applications and exploring
-                        new technologies every day!
+                        I'm Pushpendra Singh, a MERN Stack Developer from
+                        Unnao, Uttar Pradesh, India. I ship full-stack
+                        applications end-to-end — REST APIs, JWT
+                        authentication, RBAC, payment integrations, and
+                        production deployment.
                     </p>
 
                     <p style={{
@@ -76,11 +78,11 @@ function About() {
                         marginBottom: "30px",
                         fontSize: "16px"
                     }}>
-                        I am the creator of <span style={{ color: "#00d4ff" }}>Nova AI</span> —
-                        a human-like AI assistant. 
-                        
-                        <h2>My goal is to become the
-                        world's best developer and build products that <span style={{color:"#a394d1"}} >impact millions!</span></h2>
+                        I've built and hardened multiple live projects,
+                        fixed real production issues, and consistently
+                        turned reviewer feedback into shipped improvements.
+                        My goal is to keep building products that{" "}
+                        <span style={{ color: "#a394d1" }}>genuinely help people</span>.
                     </p>
 
                     {/* Stats */}
@@ -90,10 +92,10 @@ function About() {
                         gap: "15px"
                     }}>
                         {[
-                            { label: "Projects Built", value: "5+" },
-                            { label: "Days of Learning", value: "15+" },
-                            { label: "Technologies", value: "10+" },
-                            { label: "Goal", value: "🌟 Best Dev" }
+                            { label: "Projects Built", value: "4+" },
+                            { label: "Days of Learning", value: "180+" },
+                            { label: "Technologies", value: "14+" },
+                            { label: "Goal", value: "🌟 Full-Time Role" }
                         ].map((stat, i) => (
                             <motion.div
                                 key={i}

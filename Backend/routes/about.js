@@ -2,7 +2,16 @@ const express = require('express');
 const router = express.Router();
 const About = require('../models/About');
 
-// GET /api/about - get the single About record
+// Simple protection for write operations — checks a secret key from env vars
+function requireAdminKey(req, res, next) {
+  const key = req.headers['x-admin-key'];
+  if (!key || key !== process.env.ADMIN_KEY) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+  next();
+}
+
+// GET /api/about - get the single About record (public, read-only — fine as-is)
 router.get('/', async (req, res) => {
   try {
     const about = await About.findOne();
@@ -13,8 +22,8 @@ router.get('/', async (req, res) => {
   }
 });
 
-// PUT /api/about - update the About record (creates it if it doesn't exist yet)
-router.put('/', async (req, res) => {
+// PUT /api/about - update the About record (protected — requires admin key)
+router.put('/', requireAdminKey, async (req, res) => {
   try {
     const about = await About.findOneAndUpdate(
       {},
