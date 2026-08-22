@@ -1,4 +1,5 @@
 require('dotenv').config();
+
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -11,62 +12,128 @@ const messageRoutes = require('./routes/messages');
 
 const app = express();
 
-// Render sits behind a reverse proxy — this tells Express to trust the
-// X-Forwarded-For header it sets, so express-rate-limit can correctly
-// identify each visitor's real IP instead of just seeing Render's proxy IP.
+// Render sits behind a reverse proxy
 app.set('trust proxy', 1);
 
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
-// Middleware
+// ========================================
+// CORS CONFIGURATION
+// ========================================
+
 const allowedOrigins = [
+  // Current production frontend
+  'https://pushpendracode.netlify.app',
+
+  // Previous frontend domain
   'https://pushpendradevpro.netlify.app',
-  'http://localhost:5173', // local dev
+
+  // Local development
+  'http://localhost:5173',
 ];
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-}));
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // Allow requests without an origin
+      // (Postman, server-to-server requests, etc.)
+      if (!origin) {
+        return callback(null, true);
+      }
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      console.log('Blocked CORS origin:', origin);
+      return callback(new Error('Not allowed by CORS'));
+    },
+
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+
+    allowedHeaders: ['Content-Type', 'Authorization'],
+
+    credentials: true,
+  })
+);
+
+// Handle preflight requests
+app.options('*', cors());
+
+
+// ========================================
+// BODY PARSER
+// ========================================
+
 app.use(express.json());
 
-// Rate limit: applies to all API routes, protects against spam/abuse
+
+// ========================================
+// API RATE LIMIT
+// ========================================
+
 const apiLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per window
-  message: { error: 'Too many requests, please try again later.' },
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+
+  message: {
+    error: 'Too many requests, please try again later.',
+  },
 });
+
 app.use('/api', apiLimiter);
 
-// Stricter limit specifically on the contact form, since it triggers email sends
+
+// ========================================
+// CONTACT FORM RATE LIMIT
+// ========================================
+
 const contactLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000, // 1 hour
-  max: 5, // limit each IP to 5 contact submissions per hour
-  message: { error: 'Too many messages sent. Please try again later.' },
+  windowMs: 60 * 60 * 1000,
+  max: 5,
+
+  message: {
+    error: 'Too many messages sent. Please try again later.',
+  },
 });
+
 app.use('/api/messages', contactLimiter);
 
-// Routes
+
+// ========================================
+// API ROUTES
+// ========================================
+
 app.use('/api/projects', projectRoutes);
+
 app.use('/api/skills', skillRoutes);
+
 app.use('/api/about', aboutRoutes);
+
 app.use('/api/messages', messageRoutes);
 
-// Health check
+
+// ========================================
+// HEALTH CHECK
+// ========================================
+
 app.get('/', (req, res) => {
-  res.json({ status: 'Code Galaxy API is running' });
+  res.json({
+    status: 'Code Galaxy API is running',
+  });
 });
 
-// Connect to MongoDB, then start the server
+
+// ========================================
+// MONGODB CONNECTION
+// ========================================
+
 mongoose
   .connect(MONGO_URI)
   .then(() => {
     console.log('MongoDB connected');
+
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     });
