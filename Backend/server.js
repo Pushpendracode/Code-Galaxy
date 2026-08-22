@@ -10,6 +10,12 @@ const aboutRoutes = require('./routes/about');
 const messageRoutes = require('./routes/messages');
 
 const app = express();
+
+// Render sits behind a reverse proxy — this tells Express to trust the
+// X-Forwarded-For header it sets, so express-rate-limit can correctly
+// identify each visitor's real IP instead of just seeing Render's proxy IP.
+app.set('trust proxy', 1);
+
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
