@@ -6,8 +6,6 @@ const API_URL = "https://code-galaxy-9czh.onrender.com/api/projects";
 const ICONS = ["🌌", "📝", "🔌", "✅", "🤖", "🚀", "🛠️", "🌠"];
 const COLORS = ["#6c63ff", "#ff6584", "#f7df1e", "#4db33d", "#00d4ff"];
 
-// Separate small component for a project link button.
-// Keeping this isolated avoids editor autocomplete issues when pasting <a> tags.
 function ProjectLink({ url, label, color, filled }) {
     const baseStyle = {
         padding: "6px 14px",
@@ -57,7 +55,6 @@ function Projects() {
         }}>
             <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
 
-                {/* Header */}
                 <motion.div
                     initial={{ opacity: 0, y: -30 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -78,28 +75,24 @@ function Projects() {
                     </p>
                 </motion.div>
 
-                {/* Loading state */}
                 {loading && (
                     <p style={{ textAlign: "center", color: "#aaa" }}>
                         Loading projects from orbit...
                     </p>
                 )}
 
-                {/* Error state */}
                 {error && (
                     <p style={{ textAlign: "center", color: "#ff6584" }}>
                         Couldn't load projects right now. Please try again shortly.
                     </p>
                 )}
 
-                {/* Empty state */}
                 {!loading && !error && projects.length === 0 && (
                     <p style={{ textAlign: "center", color: "#aaa" }}>
                         No projects found yet — check back soon!
                     </p>
                 )}
 
-                {/* Projects Grid */}
                 {!loading && !error && projects.length > 0 && (
                     <div style={{
                         display: "grid",
@@ -129,7 +122,6 @@ function Projects() {
                                     onMouseEnter={e => e.currentTarget.style.boxShadow = `0 0 30px ${color}30`}
                                     onMouseLeave={e => e.currentTarget.style.boxShadow = "none"}
                                 >
-                                    {/* Icon + Status */}
                                     <div style={{
                                         display: "flex",
                                         justifyContent: "space-between",
@@ -151,7 +143,6 @@ function Projects() {
                                         </span>
                                     </div>
 
-                                    {/* Title */}
                                     <h3 style={{
                                         color,
                                         marginBottom: "10px",
@@ -160,7 +151,6 @@ function Projects() {
                                         {project.title}
                                     </h3>
 
-                                    {/* Description */}
                                     <p style={{
                                         color: "#aaa",
                                         fontSize: "14px",
@@ -170,12 +160,11 @@ function Projects() {
                                         {project.description}
                                     </p>
 
-                                    {/* Tech Stack */}
                                     <div style={{
                                         display: "flex",
                                         flexWrap: "wrap",
                                         gap: "8px",
-                                        marginBottom: (project.liveLink || project.githubLink) ? "20px" : "0"
+                                        marginBottom: (project.liveLink || project.frontendGithubLink || project.backendGithubLink) ? "20px" : "0"
                                     }}>
                                         {(project.techStack || []).map((tech, j) => (
                                             <span key={j} style={{
@@ -191,8 +180,7 @@ function Projects() {
                                         ))}
                                     </div>
 
-                                    {/* Links — using the ProjectLink component instead of inline <a> tags */}
-                                    {(project.liveLink || project.githubLink) && (
+                                    {(project.liveLink || project.frontendGithubLink || project.backendGithubLink) && (
                                         <div style={{
                                             display: "flex",
                                             gap: "12px",
@@ -201,8 +189,11 @@ function Projects() {
                                             {project.liveLink && (
                                                 <ProjectLink url={project.liveLink} label="Live Demo ↗" color={color} filled />
                                             )}
-                                            {project.githubLink && (
-                                                <ProjectLink url={project.githubLink} label="GitHub ↗" color={color} />
+                                            {project.frontendGithubLink && (
+                                                <ProjectLink url={project.frontendGithubLink} label="Frontend ↗" color={color} />
+                                            )}
+                                            {project.backendGithubLink && project.backendGithubLink !== project.frontendGithubLink && (
+                                                <ProjectLink url={project.backendGithubLink} label="Backend ↗" color={color} />
                                             )}
                                         </div>
                                     )}

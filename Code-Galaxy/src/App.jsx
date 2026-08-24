@@ -8,6 +8,7 @@ import Contact from "./Pages/Contact";
 import CustomCursor from "./Components/CustomCursor";
 import ClickEffect from "./Components/ClickEffect";
 import LoadingScreen from "./Components/LoadingScreen";
+import Certifications from "./Pages/Certifications";
 import "./Styles/Globle.css";
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
                 <Route path="/skills" element={<Skills />} />
                 <Route path="/projects" element={<Projects />} />
                 <Route path="/contact" element={<Contact />} />
+                <Route path="/certifications" element={<Certifications />} />
             </Routes>
         </BrowserRouter>
     );

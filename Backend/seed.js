@@ -1,9 +1,3 @@
-// Run this once after setting up MONGO_URI to populate your database
-// with your real Projects, Skills, and About info: node seed.js
-//
-// IMPORTANT: review and edit the data below — fill in any missing
-// links, descriptions, or skills that are yours.
-
 require('dotenv').config();
 const mongoose = require('mongoose');
 const Project = require('./models/Project');
@@ -17,43 +11,35 @@ const projects = [
       'Full-stack MERN application for managing hostel operations — role-based access control (RBAC) across 3 user roles, Razorpay payments, automated billing, and a maintenance request system. Hardened for production with rate limiting, Helmet, and CORS.',
     techStack: ['React', 'Node.js', 'Express', 'MongoDB Atlas', 'JWT Auth', 'RBAC', 'Razorpay'],
     liveLink: 'https://hotelmanagmen.netlify.app',
-    githubLink: 'https://github.com/Pushpendracode',
+    frontendGithubLink: 'https://github.com/Pushpendracode/Hotel-Managment',
+    backendGithubLink: 'https://github.com/Pushpendracode/Hotel-Managment',
     status: 'Completed',
     featured: true,
     order: 1,
   },
   {
-    title: 'Affiloop AI — AI-Powered Affiliate Marketplace',
+    title: 'Password Reset Flow',
     description:
-      'AI-powered affiliate marketplace currently in development — full codebase audit, complete Admin CRUD build-out, and a redesigned typography/color-token design system.',
-    techStack: ['React', 'Node.js', 'Express', 'MongoDB', 'Tailwind CSS'],
-    liveLink: '',
-    githubLink: 'https://github.com/Pushpendracode',
-    status: 'In Progress',
+      'Secure, email-based password reset system with token generation, expiry handling, and production-hardened email delivery — migrated from SMTP to Brevo\'s HTTP API after Render blocked outbound SMTP on the free tier.',
+    techStack: ['React', 'Vite', 'Node.js', 'Express', 'MongoDB', 'Nodemailer'],
+    liveLink: 'https://password-reset-1-fcyu.onrender.com',
+    frontendGithubLink: 'https://github.com/Pushpendracode/password-reset',
+    backendGithubLink: 'https://github.com/Pushpendracode/password-reset',
+    status: 'Completed',
     featured: true,
     order: 2,
   },
   {
-    title: 'Recipes CRUD API & User Auth API',
+    title: 'Affiloop AI — AI-Powered Affiliate Marketplace',
     description:
-      'Two MVC-pattern REST APIs — full CRUD for recipe management and a Bearer-token authentication system with bcrypt password hashing. Documented in Postman and deployed on Render.',
-    techStack: ['Node.js', 'Express', 'MongoDB', 'JWT', 'bcrypt'],
+      'AI-powered affiliate marketplace — full codebase audit, complete Admin CRUD build-out, and a redesigned typography/color-token design system.',
+    techStack: ['React', 'Node.js', 'Express', 'MongoDB', 'Tailwind CSS'],
     liveLink: '',
-    githubLink: 'https://github.com/Pushpendracode',
-    status: 'Completed',
-    featured: false,
+    frontendGithubLink: 'https://github.com/Pushpendracode',
+    backendGithubLink: 'https://github.com/Pushpendracode',
+    status: 'In Progress',
+    featured: true,
     order: 3,
-  },
-  {
-    title: 'LUXE Store & Add to Cart App',
-    description:
-      'React e-commerce interfaces using React Router v6 and Context + useReducer for cart state management, one integrating a live third-party product API.',
-    techStack: ['React', 'React Router v6', 'Context API', 'useReducer'],
-    liveLink: '',
-    githubLink: 'https://github.com/Pushpendracode',
-    status: 'Completed',
-    featured: false,
-    order: 4,
   },
 ];
 
