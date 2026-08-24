@@ -1,18 +1,37 @@
-import { Link, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false);
-    const location = useLocation();
+    const [activeSection, setActiveSection] = useState("home");
 
     const links = [
-        { name: "Home", path: "/" },
-        { name: "About", path: "/about" },
-        { name: "Skills", path: "/skills" },
-        { name: "Projects", path: "/projects" },
-        { name: "Contact", path: "/contact" },
-        { name: "Certifications", path: "/certifications" },
+        { name: "Home", id: "home" },
+        { name: "About", id: "about" },
+        { name: "Skills", id: "skills" },
+        { name: "Projects", id: "projects" },
+        { name: "Certifications", id: "certifications" },
+        { name: "Contact", id: "contact" }
     ];
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        setActiveSection(entry.target.id);
+                    }
+                });
+            },
+            { rootMargin: "-45% 0px -45% 0px", threshold: 0 }
+        );
+
+        links.forEach((link) => {
+            const el = document.getElementById(link.id);
+            if (el) observer.observe(el);
+        });
+
+        return () => observer.disconnect();
+    }, []);
 
     return (
         <nav style={{
@@ -30,7 +49,7 @@ function Navbar() {
             boxSizing: "border-box"
         }}>
             {/* Logo */}
-            <Link to="/">
+            <a href="#home">
                 <h2 style={{
                     color: "#6c63ff",
                     fontSize: "1.5rem",
@@ -38,7 +57,7 @@ function Navbar() {
                 }}>
                     🌌 Code Galaxy
                 </h2>
-            </Link>
+            </a>
 
             {/* Desktop Links */}
             <div style={{
@@ -49,20 +68,20 @@ function Navbar() {
             className="desktop-nav"
             >
                 {links.map(link => (
-                    <Link
-                        key={link.name}
-                        to={link.path}
+                    <a
+                        key={link.id}
+                        href={`#${link.id}`}
                         style={{
-                            color: location.pathname === link.path ? "#6c63ff" : "#ffffff",
+                            color: activeSection === link.id ? "#6c63ff" : "#ffffff",
                             fontSize: "16px",
-                            fontWeight: location.pathname === link.path ? "bold" : "normal",
-                            borderBottom: location.pathname === link.path ? "2px solid #6c63ff" : "none",
+                            fontWeight: activeSection === link.id ? "bold" : "normal",
+                            borderBottom: activeSection === link.id ? "2px solid #6c63ff" : "none",
                             paddingBottom: "4px",
                             transition: "color 0.3s"
                         }}
                     >
                         {link.name}
-                    </Link>
+                    </a>
                 ))}
             </div>
 
@@ -120,20 +139,20 @@ function Navbar() {
                     zIndex: 1000
                 }}>
                     {links.map(link => (
-                        <Link
-                            key={link.name}
-                            to={link.path}
+                        <a
+                            key={link.id}
+                            href={`#${link.id}`}
                             onClick={() => setMenuOpen(false)}
                             style={{
-                                color: location.pathname === link.path ? "#6c63ff" : "#ffffff",
+                                color: activeSection === link.id ? "#6c63ff" : "#ffffff",
                                 fontSize: "18px",
-                                fontWeight: location.pathname === link.path ? "bold" : "normal",
+                                fontWeight: activeSection === link.id ? "bold" : "normal",
                                 padding: "10px 0",
                                 borderBottom: "1px solid rgba(108, 99, 255, 0.1)"
                             }}
                         >
                             {link.name}
-                        </Link>
+                        </a>
                     ))}
                 </div>
             )}

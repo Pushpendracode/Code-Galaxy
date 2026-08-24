@@ -79,12 +79,12 @@ function Home() {
                 ))}
 
                 {/* Main Content */}
-                <motion.div
+                <motion.div>
                     initial={{ opacity: 0, y: 50 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1 }}
                     style={{ zIndex: 1 }}
-                >
+                </motion.div>
                     <motion.p
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -120,10 +120,10 @@ function Home() {
                             marginBottom: "50px"
                         }}
                     >
-                        🚀 MERN Stack Developer | Building end-to-end web apps
+                        🚀 Full Stack Developer | Creator of Nova AI
                     </motion.h2>
 
-                    <motion.div
+                                        <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 1.2 }}
@@ -134,7 +134,7 @@ function Home() {
                             flexWrap: "wrap"
                         }}
                     >
-                        <Link to="/projects">
+                        <a href="#projects" style={{ textDecoration: "none" }}>
                             <button style={{
                                 padding: "14px 35px",
                                 background: "linear-gradient(135deg, #6c63ff, #00d4ff)",
@@ -148,9 +148,9 @@ function Home() {
                             }}>
                                 🎮 Explore My Galaxy
                             </button>
-                        </Link>
+                        </a>
 
-                        <Link to="/contact">
+                        <a href="#contact" style={{ textDecoration: "none" }}>
                             <button style={{
                                 padding: "14px 35px",
                                 background: "transparent",
@@ -163,9 +163,8 @@ function Home() {
                             }}>
                                 📡 Contact Me
                             </button>
-                        </Link>
+                        </a>
                     </motion.div>
-                </motion.div>
 
                 {/* Scroll indicator */}
                 <motion.div
@@ -216,7 +215,7 @@ function Home() {
                         { icon: "⚡", title: "Frontend", desc: "Building beautiful UIs with React and modern CSS" },
                         { icon: "🔧", title: "Backend", desc: "Creating powerful APIs with Node.js and Express" },
                         { icon: "🗄️", title: "Database", desc: "Managing data with MongoDB and Mongoose" },
-                        { icon: "🤖", title: "AI Integration", desc: "Building AI-powered features with the Anthropic API" }
+                        { icon: "🤖", title: "AI", desc: "Building Nova AI — a human-like AI assistant" }
                     ].map((item, i) => (
                         <motion.div
                             key={i}
@@ -245,13 +244,13 @@ function Home() {
                 </div>
 
                 {/* CTA */}
-                <motion.div
+                                <motion.div
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     transition={{ delay: 0.5 }}
                     style={{ textAlign: "center", marginTop: "60px" }}
                 >
-                    <Link to="/about">
+                    <a href="#about" style={{ textDecoration: "none" }}>
                         <button style={{
                             padding: "14px 35px",
                             background: "linear-gradient(135deg, #6c63ff, #00d4ff)",
@@ -264,7 +263,7 @@ function Home() {
                         }}>
                             Learn More About Me 🚀
                         </button>
-                    </Link>
+                    </a>
                 </motion.div>
             </div>
         </div>
