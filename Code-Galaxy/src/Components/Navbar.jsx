@@ -13,6 +13,8 @@ function Navbar() {
         { name: "Contact", id: "contact" }
     ];
 
+    const resumeUrl = "https://drive.google.com/file/d/1Oupy_gJgsclsdTibSWh1okuQL1AgTsq2/view?usp=sharing";
+
     useEffect(() => {
         const observer = new IntersectionObserver(
             (entries) => {
@@ -59,7 +61,7 @@ function Navbar() {
                 </h2>
             </a>
 
-            {/* Desktop Links */}
+            {/* Desktop Links + Resume Button */}
             <div style={{
                 display: "flex",
                 gap: "30px",
@@ -83,6 +85,24 @@ function Navbar() {
                         {link.name}
                     </a>
                 ))}
+
+                <a
+                    href={resumeUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                        padding: "8px 18px",
+                        background: "linear-gradient(135deg, #6c63ff, #00d4ff)",
+                        color: "white",
+                        borderRadius: "20px",
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                        textDecoration: "none",
+                        boxShadow: "0 0 12px rgba(108, 99, 255, 0.4)"
+                    }}
+                >
+                    📄 Resume
+                </a>
             </div>
 
             {/* Hamburger Button */}
@@ -154,6 +174,22 @@ function Navbar() {
                             {link.name}
                         </a>
                     ))}
+
+                    <a
+                        href={resumeUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => setMenuOpen(false)}
+                        style={{
+                            padding: "10px 0",
+                            color: "#00d4ff",
+                            fontSize: "18px",
+                            fontWeight: "bold",
+                            textDecoration: "none"
+                        }}
+                    >
+                        📄 Resume
+                    </a>
                 </div>
             )}
         </nav>
