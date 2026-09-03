@@ -5,6 +5,7 @@ const certifications = [
         name: "MERN Stack Development",
         issuer: "GUVI",
         credentialId: "nXBMnsMTS3q5PJiH",
+        verifyUrl: "https://www.zenclass.in/certificateDownload/nXBMnsMTS3q5PJiH?download=true",
         icon: "🏆",
     },
 ];
@@ -44,8 +45,11 @@ function Certifications() {
                     gap: "20px"
                 }}>
                     {certifications.map((cert, i) => (
-                        <motion.div
+                        <motion.a
                             key={i}
+                            href={cert.verifyUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: i * 0.15 }}
@@ -57,7 +61,9 @@ function Certifications() {
                                 padding: "25px",
                                 display: "flex",
                                 alignItems: "center",
-                                gap: "18px"
+                                gap: "18px",
+                                textDecoration: "none",
+                                cursor: "pointer"
                             }}
                         >
                             <div style={{ fontSize: "40px" }}>{cert.icon}</div>
@@ -68,11 +74,14 @@ function Certifications() {
                                 <p style={{ color: "#aaa", fontSize: "14px", marginBottom: "4px" }}>
                                     {cert.issuer}
                                 </p>
-                                <p style={{ color: "#666", fontSize: "12px" }}>
+                                <p style={{ color: "#666", fontSize: "12px", marginBottom: "8px" }}>
                                     Credential ID: {cert.credentialId}
                                 </p>
+                                <p style={{ color: "#00d4ff", fontSize: "13px", fontWeight: "600" }}>
+                                    View / Verify Certificate ↗
+                                </p>
                             </div>
-                        </motion.div>
+                        </motion.a>
                     ))}
                 </div>
             </div>
