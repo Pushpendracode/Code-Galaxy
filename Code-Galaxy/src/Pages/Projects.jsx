@@ -474,7 +474,7 @@ function Projects() {
                                                         url={String(
                                                             project.frontendGithubLink
                                                         )}
-                                                        label="Frontend ↗"
+                                                        label="Source Code ↗"
                                                         color={
                                                             color
                                                         }
